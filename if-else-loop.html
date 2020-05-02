@@ -10,6 +10,10 @@
     <div id="app">
       <span v-if="see">Now you see me</span>
       <span v-else>Now you don't</span>
+
+      <div v-for="step in steps" :key="step.id">
+        {{step}}
+      </div>
     </div>
 
     <script>
@@ -17,6 +21,7 @@
         el: "#app",
         data: {
           see: false,
+          steps: ["Learn Javascript", "Learn Vue", "Become a millionaire"],
         },
       });
     </script>
