@@ -15,6 +15,15 @@
           {{item}}
         </li>
       </ul>
+      <select>
+        <option v-for="month in months">{{month}}</option>
+      </select>
+      <select>
+        <option v-for="month in 12">{{month}}</option>
+      </select>
+      <select>
+        <option v-for="(month,i) in monthsE" :value="i">{{month}}</option>
+      </select>
     </div>
 
     <script>
@@ -22,7 +31,9 @@
         el: "#app",
         data: {
           input: "",
-          items: ["1", "2", "3"],
+          items: ["學會Javascript", "學會Vue", "投遞履歷"],
+          months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          monthsE: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
         },
         methods: {
           add() {
