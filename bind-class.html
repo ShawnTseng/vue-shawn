@@ -22,14 +22,28 @@
     <div id="app">
       <input v-model="text" type="text" />
       <button :class="buttonClass">Submit</button>
+      <h1 :style="h1Style">Valar Morghulis</h1>
+      <button @click="shrink">OK</button>
     </div>
 
     <script>
+      const commonHeadStyle = {
+        fontSize: "14px",
+      };
+
       new Vue({
         el: "#app",
         data: {
+          size: 40,
           text: "",
-        //   buttonClass: ["submit", "disabled"],
+          //   buttonClass: ["submit", "disabled"],
+          //   h1Style: "color: red",
+          //   h1Style: [
+          //     commonHeadStyle,
+          //     {
+          //       color: "red"
+          //     },
+          //   ],
         },
         computed: {
           buttonClass() {
@@ -42,6 +56,17 @@
               submit: true,
               disabled: this.text.length === 0,
             };
+          },
+          h1Style() {
+            return {
+              color: "red",
+              fontSize: `${this.size}px`,
+            };
+          },
+        },
+        methods: {
+          shrink() {
+            this.size--;
           },
         },
       });
