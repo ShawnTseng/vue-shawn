@@ -15,6 +15,13 @@
       <span>{{message}}</span>
       <br />
       <button @click="append">Append</button>
+      <hr />
+      <input type="checkbox" :checked="selected" />
+      <button @click="toggle">Toggle</button>
+      <hr />
+      <input v-model="text" type="text" />
+      <br>
+      {{text}}
     </div>
 
     <script>
@@ -22,10 +29,15 @@
         el: "#app",
         data: {
           message: "<script>alert('hi')<//script>",
+          selected: false,
+          text: "Hello",
         },
         methods: {
           append() {
             this.message += "!";
+          },
+          toggle() {
+            this.selected = !this.selected;
           },
         },
       });
