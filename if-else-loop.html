@@ -10,16 +10,25 @@
     <div id="app">
       <span v-if="see">Now you see me</span>
       <span v-else>Now you don't</span>
-
       <div v-for="step in steps" :key="step.id">
         {{step}}
       </div>
+      <hr />
+      <input v-model="checked" type="checkbox" />
+      <h1 v-show="checked">Hi~</h1>
+      <template v-if="checked">
+        <h1>跳樓大拍賣</h1>
+      </template>
+      <template v-else>
+        <h1>老闆不在家</h1>
+      </template>
     </div>
 
     <script>
       new Vue({
         el: "#app",
         data: {
+          checked: false,
           see: false,
           steps: ["Learn Javascript", "Learn Vue", "Become a millionaire"],
         },
