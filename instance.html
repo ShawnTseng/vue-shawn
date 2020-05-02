@@ -10,11 +10,11 @@
     <div id="app"></div>
 
     <script>
+      const data = { x: 1, y: 2, message: "Hi~" };
+
       const vm = new Vue({
-        template: "<h1>{{message}}</h1>",
-        data: {
-          message: "Hi~",
-        },
+        template: "<div><h1>{{message}}</h1><div>{{x+y}}</div></div>",
+        data
       });
 
       vm.$mount("#app");
