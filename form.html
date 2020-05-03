@@ -66,6 +66,15 @@
       <input type="file" @change="fileSelected" />
       <img v-if="image" :src="image" width="200" />
       <button @click="upload">Upload</button>
+      <hr />
+      <input type="text" v-model.lazy="myText" />
+      <h1>{{myText}}</h1>
+      <br />
+      <input type="text" v-model.number="num" />
+      <h1>{{num+1}}</h1>
+      <br />
+      <input type="text" v-model.trim="trimText" />
+      <h1>[{{trimText}}]</h1>
     </div>
 
     <script>
@@ -83,6 +92,9 @@
           selectedYear: 2015,
           image: "",
           file: null,
+          myText: "",
+          num: 0,
+          trimText: "",
         },
         methods: {
           setMessage(event) {
