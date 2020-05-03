@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="app">
-      <input v-model="input" type="text" />
+      <input v-model="input" type="text" @keydown.enter.prevent="enter" />
       <button @click="add">Add</button>
       <ul>
         <li v-for="(item, index) in items" @click="remove(index)">
@@ -68,6 +68,12 @@
             // this.me.location = "Taihung";
             // this.$set(this.me, "location", "Taichung");
             Vue.set(this.me, "location", "Taichung");
+          },
+          keydown(event) {
+            console.log(event.keyCode);
+          },
+          enter() {
+            this.add();
           },
         },
       });
