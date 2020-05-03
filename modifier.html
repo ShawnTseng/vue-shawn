@@ -6,5 +6,59 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
   </head>
-  <body></body>
+
+  <style>
+    .box {
+      display: inline-block;
+      min-width: 80px;
+      min-height: 80px;
+      padding: 40px;
+      border: 1px solid red;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <a href="https://google.com" target="_blank" @click.prevent="linkClick">
+        google
+      </a>
+      <div class="box" @click.stop="msg='c'">
+        <div class="box" @click.stop="msg='b'">
+          <div class="box" @click.stop="msg='a'"></div>
+        </div>
+      </div>
+      <hr />
+      <div class="box" @click.self="msg='c'">
+        <div class="box" @click.self="msg='b'">
+          <div class="box" @click.self="msg='a'"></div>
+        </div>
+      </div>
+      <h1>{{msg}}</h1>
+      <hr />
+      <button @click.once="count++">+1</button>
+      {{count}}
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          count: 0,
+          msg: "",
+        },
+        methods: {
+          //   linkClick(event) {
+          //     event.preventDefault();
+          //     alert("Hi");
+          //   },
+          linkClick() {
+            alert("Hi");
+          },
+          setA(event) {
+            event.stopPropagation();
+            this.msg = "a";
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
