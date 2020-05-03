@@ -62,6 +62,10 @@
         <option v-for="year in yearList" :value="year">{{year}}</option>
       </select>
       <h1>{{selectedYear}}</h1>
+      <hr />
+      <input type="file" @change="fileSelected" />
+      <img v-if="image" :src="image" width="200" />
+      <button @click="upload">Upload</button>
     </div>
 
     <script>
@@ -77,6 +81,8 @@
           years: [],
           yearList: [2015, 2016, 2017],
           selectedYear: 2015,
+          image: "",
+          file: null,
         },
         methods: {
           setMessage(event) {
@@ -87,6 +93,24 @@
               alert("Please agree");
               return;
             }
+          },
+          fileSelected(event) {
+            this.file = event.target.files.item(0);
+            const reader = new FileReader();
+            reader.addEventListener("load", this.imageLoaded);
+            reader.readAsDataURL(this.file);
+          },
+          imageLoaded(event) {
+            this.image = event.target.result;
+          },
+          upload() {
+            // 1
+            axios.post("/upload", { image: this.image });
+
+            // 2
+            const form = new FormData();
+            form.append(this.file, this.file.name);
+            axios.post("/upload", form);
           },
         },
       });
