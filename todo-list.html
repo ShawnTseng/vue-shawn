@@ -25,6 +25,7 @@
         <option v-for="(month,i) in monthsE" :value="i">{{month}}</option>
       </select>
       <div v-for="(value,key) in me">{{key}} - {{value}}</div>
+      <button @click="AddProperty">Add Me</button>
     </div>
 
     <script>
@@ -48,6 +49,25 @@
           },
           remove(index) {
             this.items.splice(index, 1);
+          },
+          action() {
+            // this.items.push();
+            // this.items.pop();
+            // this.items.shift();
+            // this.items.unshift();
+            // this.items.splice(index, length);
+            // this.items.sort();
+            // this.items.reverse();
+            // this.items.filter((e) => e !== "");
+            // this.items[0] = "test";
+            // this.items.splice(0, 1, "test");
+            // this.nums.length = 3;
+            // this.nums.splice(3);
+          },
+          AddProperty() {
+            // this.me.location = "Taihung";
+            // this.$set(this.me, "location", "Taichung");
+            Vue.set(this.me, "location", "Taichung");
           },
         },
       });
