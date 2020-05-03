@@ -5,14 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <style>
+      h1 {
+        white-space: pre;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <input v-model="message" type="text" />
+      <input :value="message" @input="setMessage" type="text" />
+      <h1>{{message}}</h1>
+      <br />
+      <textarea @input="textarea = $event.target.value">{{textarea}}</textarea>
+      <textarea v-model="textarea"></textarea>
+      <!-- <pre>{{textarea}}</pre> -->
+      <h1>{{textarea}}</h1>
+      <hr />
+      <input type="checkbox" id="check" v-model="agree" />
+      <label for="check">Agree</label>
+      <h1>{{agree}}</h1>
+      <button @click="submit">Submit</button>
+      <hr />
+      <input type="checkbox" id="check1" value="morning" v-model="times" />
+      <label for="check1">Morning</label>
+      <input type="checkbox" id="check2" value="afternoon" v-model="times" />
+      <label for="check2">Afternoon</label>
+      <input type="checkbox" id="check3" value="evening" v-model="times" />
+      <label for="check3">Evening</label>
+      <h1>{{times}}</h1>
+      <hr />
+      <input type="radio" id="r1" value="male" v-model="gender" />
+      <label for="r1">Male</label>
+      <input type="radio" id="r2" value="female" v-model="gender" />
+      <label for="r2">Female</label>
+      <input type="radio" id="r3" value="others" v-model="gender" />
+      <label for="r3">Others</label>
+      <h1>{{gender}}</h1>
+      <hr />
+      <select v-model="year">
+        <option disabled value="">Selected Year</option>
+        <option>2015</option>
+        <option>2016</option>
+        <option>2017</option>
+      </select>
+      <h1>{{year}}</h1>
+      <hr />
+      <select v-model="years" multiple>
+        <option>2015</option>
+        <option>2016</option>
+        <option>2017</option>
+      </select>
+      <h1>{{years}}</h1>
+      <hr />
+      <select v-model="selectedYear">
+        <option v-for="year in yearList" :value="year">{{year}}</option>
+      </select>
+      <h1>{{selectedYear}}</h1>
+    </div>
 
     <script>
       new Vue({
         el: "#app",
-        
+        data: {
+          message: "",
+          textarea: "",
+          agree: false,
+          times: [],
+          gender: "male",
+          year: "",
+          years: [],
+          yearList: [2015, 2016, 2017],
+          selectedYear: 2015,
+        },
+        methods: {
+          setMessage(event) {
+            this.message = event.target.value;
+          },
+          submit() {
+            if (this.agree !== true) {
+              alert("Please agree");
+              return;
+            }
+          },
+        },
       });
     </script>
   </body>
