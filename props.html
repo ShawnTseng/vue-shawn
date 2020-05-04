@@ -9,6 +9,11 @@
   <body>
     <div id="app">
       <post v-for="post in posts" v-bind="post"></post>
+      <hr />
+      <h1>{{count}}</h1>
+      <button @click="count+=1">+1</button>
+
+      <counter :start="count"></counter>
     </div>
 
     <script>
@@ -19,11 +24,32 @@
             { text: "hello", author: "John" },
             { text: "world", author: "Jack" },
           ],
+          count: 10,
         },
         components: {
           post: {
             props: ["text", "author"],
             template: `<div>{{author}}: {{text}}</div>`,
+          },
+          counter: {
+            props: ["start"],
+            data() {
+              return {
+                count: this.start,
+              };
+            },
+            computed: {
+              countDoubled() {
+                return this.start * 2;
+              },
+            },
+            template: `
+              <div>
+                <h1>{{count}}</h1>
+                <h2>{{countDoubled}}</h2>
+                <button @click="count+=1">+1</button>
+              </div>
+            `,
           },
         },
       });
