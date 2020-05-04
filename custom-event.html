@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <my-button @my-click="clicked"></my-button>
+      <my-counter @count-emit="countEmit"></my-counter>
+      <h1>{{count}}</h1>
+    </div>
+
+    <script>
+      Vue.component("my-counter", {
+        template: `
+        <div>
+            <h1>{{count}}</h1>
+            <button @click="count+=1">+1</button>
+            <button @click="emit">emit</button
+        </div>
+        `,
+        data() {
+          return {
+            count: 0,
+          };
+        },
+        methods: {
+          emit() {
+            this.$emit("count-emit", this.count);
+          },
+        },
+      });
+
+      Vue.component("my-button", {
+        template: '<button @click="myClick">my-button</button>',
+        methods: {
+          myClick() {
+            this.$emit("my-click", 100);
+          },
+        },
+      });
+
+      new Vue({
+        el: "#app",
+        data: {
+          count: 0,
+        },
+        methods: {
+          clicked(num) {
+            alert("clicked" + num);
+          },
+          countEmit(count) {
+            this.count = count;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
