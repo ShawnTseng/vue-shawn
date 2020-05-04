@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
   </head>
   <body>
     <div id="app">
@@ -17,6 +17,33 @@
     </div>
 
     <script>
+      Vue.components("counter", {
+        // created
+        props: {
+          // start: Number,
+          start: {
+            type: Number,
+            // default: 0,
+            default() {
+              return app.getSetting();
+            },
+            validator(value) {
+              return value <= 10;
+            },
+          },
+        },
+        data() {
+          return {
+            count: this.start,
+          };
+        },
+        template: `
+          <div>
+            <h1>{{count}}</h1>
+            <button @click="count+=1">+1</button>
+          </div>
+        `,
+      });
       new Vue({
         el: "#app",
         data: {
