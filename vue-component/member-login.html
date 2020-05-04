@@ -5,13 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div>
+        <button @click="component='login-form'">Login Form</button>
+        <button @click="component='user-check'">User Check</button>
+      </div>
+      <hr />
+      <keep-alive>
+        <component :is="component"></component>
+      </keep-alive>
+    </div>
 
     <script>
+      const API = "http://localhost:3000";
+
+      Vue.component("user-check", {
+        template: `
+        <div>
+          <label>Username</label>
+          <input v-model="username" type="text" />
+          <br />
+          <span>{{exists}}</span>
+        </div>`,
+        data() {
+          return {
+            username: "",
+            exists: false,
+          };
+        },
+        methods: {
+          submit() {
+            axios.get(`${API}/exists/${this.username}`).then((response) => {
+              this.exists = response.data.exists;
+            });
+          },
+        },
+        watch: {
+          username() {
+            this.submitDebounced();
+          },
+        },
+        created() {
+          this.submitDebounced = _.debounce(this.submit, 500);
+        },
+      });
+
+      Vue.component("login-form", {
+        template: `
+        <div>
+        <h1 v-if="loggedUser">Welcome! {{loggedUser}}</h1>
+        <form v-else @submit.prevent="submit">
+          <label>Username</label>
+          <input v-model="username" type="text" :disabled="loading" />
+          <br />
+          <label>Password</label>
+          <input v-model="password" type="password" :disabled="loading" />
+          <br />
+          <button type="submit" :disabled="loading">Submit</button>
+          <br />
+          <span v-if="error">{{error}}</span>
+        </form>
+        </div>
+        `,
+        data() {
+          return {
+            username: "",
+            password: "",
+            loggedUser: null,
+            error: "",
+            loading: false,
+          };
+        },
+        methods: {
+          submit() {
+            this.loading = true;
+            axios
+              .post(`${API}/login`, {
+                username: this.username,
+                password: this.password,
+              })
+              .then((response) => {
+                this.loading = false;
+                if (response.data.success) {
+                  this.loggedUser = response.data.name;
+                } else {
+                  this.error = "Incorrect username/password";
+                }
+              });
+          },
+        },
+        watch: {
+          username() {
+            this.error = "";
+          },
+          password() {
+            this.error = "";
+          },
+        },
+      });
+
       new Vue({
         el: "#app",
+        data: {
+          component: "login-form",
+        },
       });
     </script>
   </body>
