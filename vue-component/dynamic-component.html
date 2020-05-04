@@ -11,7 +11,9 @@
       <button @click="content='lessons'">Lessons</button>
       <button @click="content='apply'">Apply</button>
       <br />
-      <component :is="content"></component>
+      <keep-alive>
+        <component :is="content"></component>
+      </keep-alive>
     </div>
 
     <script>
