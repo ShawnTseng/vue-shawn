@@ -9,27 +9,43 @@
   <body>
     <div id="app">
       <my-button @my-click="clicked" @click.native="nativeClick"></my-button>
-      <my-counter @count-emit="countEmit"></my-counter>
-      <h1>{{count}}</h1>
+      <hr />
+      <my-counter
+        @count-emit="countEmit"
+        :outer-count.sync="outerCount"
+      ></my-counter>
+      <br />
+      <my-counter
+        @count-emit="countEmit"
+        :outer-count="outerCount"
+        @update="setOuterCount"
+      ></my-counter>
+      <h1>{{outerCount}}</h1>
     </div>
 
     <script>
       Vue.component("my-counter", {
+        props: ["outerCount"],
         template: `
         <div>
-            <h1>{{count}}</h1>
-            <button @click="count+=1">+1</button>
-            <button @click="emit">emit</button
+            <h1>{{innerCount}}</h1>
+            <button @click="innerCount+=1">+1</button>
+            <button @click="emit">emit</button>
+            <button @click="sync">sync</button>
         </div>
         `,
         data() {
           return {
-            count: 0,
+            innerCount: this.outerCount,
           };
         },
         methods: {
           emit() {
-            this.$emit("count-emit", this.count);
+            this.$emit("count-emit", this.innerCount);
+          },
+          sync() {
+            this.$emit("update", this.innerCount); // custom
+            this.$emit("update:outerCount", this.innerCount); // sync
           },
         },
       });
@@ -46,17 +62,20 @@
       new Vue({
         el: "#app",
         data: {
-          count: 0,
+          outerCount: 0,
         },
         methods: {
           clicked(num) {
             alert("clicked" + num);
           },
           countEmit(count) {
-            this.count = count;
+            this.outerCount = count;
           },
           nativeClick() {
             alert("native click");
+          },
+          setOuterCount(count) {
+            this.outerCount = count;
           },
         },
       });
