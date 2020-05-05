@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const cities = [
+        {
+          name: "臺北市",
+          areas: [
+            {
+              name: "天龍區",
+              zip: "123",
+            },
+            {
+              name: "火星區",
+              zip: "323",
+            },
+            {
+              name: "山頂區",
+              zip: "323",
+            },
+            {
+              name: "人肉區",
+              zip: "323",
+            },
+          ],
+        },
+        {
+          name: "臺中市",
+          areas: [
+            {
+              name: "中正區",
+              zip: "123",
+            },
+            {
+              name: "火星區",
+              zip: "323",
+            },
+            {
+              name: "天才區",
+              zip: "523",
+            },
+          ],
+        },
+      ];
+
+      Vue.component("Select", {
+        props: ["value", "options"],
+        computed: {
+          index: {
+            get() {
+              return this.value;
+            },
+            set(value) {
+              this.$emit("input", value);
+            },
+          },
+        },
+        template: `
+          <select v-model="index">
+            <option v-for="(item, index) in options" :value="index">
+                {{item.name}}
+            </option>
+          </select> 
+          `,
+      });
+
+      new Vue({
+        el: "#app",
+        data: {
+          cityIndex: 0,
+          areaIndex: 0,
+        },
+        computed: {
+          cities() {
+            return cities;
+          },
+          areas() {
+            return cities[this.cityIndex].areas;
+          },
+          zip() {
+            return this.areas[this.areaIndex].zip;
+          },
+        },
+        watch: {
+          cityIndex() {
+            this.areaIndex = 0;
+          },
+        },
+        template: `
+        <div>
+            <Select v-model="cityIndex" :options="cities" />
+            <Select v-model="areaIndex" :options="areas" />
+            <br />            
+            {{cityIndex}} - {{areaIndex}} - {{zip}}
+        </div>
+        `,
+      });
+    </script>
+  </body>
+</html>
